@@ -1,0 +1,222 @@
+---
+title: "Introduction to literate programming with Quarto"
+subtitle: "InfAR workshop"
+author: Milan Valášek
+date: 2023-04-27
+date-format: "DD MMMM, YYYY"
+toc: true # should there be a table of contents?
+number-sections: true # should section headings be numbered?
+bibliography: references.bib # file with cited literature entries
+csl: apa.csl # APA 7th citation style
+# csl: ieee.csl # Institute of Electrical and Electronics Engineers citation style
+---
+
+# Level 1 heading
+
+## Level 2 heading
+
+### Level 3 heading
+
+#### Level 4 heading
+
+##### Level 5 heading
+
+###### Level 6 heading
+
+Body text.
+New lines get ignored.
+To start a new paragraph, we need 2 new lines.
+
+This is now a new paragraph.
+
+# Markdown
+
+## Basic text formatting
+
+<!-- This is a comment. It gets ignored when rendering the document. -->
+Italics (or rather emphasis) is denoted with a single asterisk (\*) or underscore(\_) around text, like *this* or _this_.
+We can add boldface with double asterisks or underscores, like **this** or __this__.
+In practice, to ease readability of the markdown, I like to use underscores for _emphasis_ and asterisks for **boldface** but that's up to you.
+There's a little side note to using these markdown special characters, so let's add a footnote.[^1]
+
+[^1]: If you want to use _literal_ asterisks or underscores that you don't want to be interpreted as markers of emphasis, you need to _"escape"_ them using a backslash, like this: `\*` and `\_`. The same goes for all other special characters.
+
+For a slightly more exotic formatting, use double tilde (\~~) for ~~strikethrough~~ and backticks (\`) for `monospace font` often used for code (watch out, these are not quotes or apostrophes).
+The particular flavour of markdown used by Quarto also supports ^superscripts^ and ~subscripts~.
+
+For situations when you want to show a block of code, you can use text offset by four spaces
+
+    This is a block of monospace text you can use to show code.
+    There are, however better options that we'll talk about later.
+
+You can also make use of the built in syntax highlighting (supports over 140 languages) by enclosing your code in a backtick fence:
+
+<!-- the python tells the rendered what language the code is supposed to be so that it highlights it accordingly -->
+```python
+### Python sample code ###
+
+import numpy as np
+
+# basic for-loop
+for i in range(0, 10):
+    print(i)
+```
+
+```js
+/// JavaScript sample code ///
+
+// arrow function (ES6 on)
+const greet = (name) => `Hello ${name}`
+
+greet("InfAR")
+```
+
+```cs
+/// C# sample code ///
+
+var random = new Random();
+int dice = random.Next(1, 7);   // creates a number between 1 and 6 
+```
+
+> You can also use blockquote like this where you can quote an entire paragraph, if you so wish.
+
+To end these kinds of formatting blocks, just insert a couple of new lines.
+
+## Lists
+
+There are two kinds of lists: unordered (bullet points) and ordered (numbered/lettered).
+
+- This
+- is
+- an unordered
+- list
+    - supports multiple
+        - levels
+
+<!-- Just put 1s everywhere, the rendered will take care of the actual numbering -->
+1. This
+1. is
+1. an ordered list
+    1. again, with levels
+        - unordered and ordered lists can be combined
+
+a. this
+a. is
+a. also an ordered list
+
+## Links and images
+
+If you want to include hyperlinks in your document, there are a couple of options.
+First, you can simply write out the URL, such as https://www.quarto.org.
+A slightly better way is to link the URL to some informative text.
+To learn more, visit the [Quarto documentation page](https://www.quarto.org).
+
+![Image caption (optional)](img/sven.jpg){#fig-sven}
+
+<!-- content within the ::: fence will have a 3-column layout -->
+::: {layout-ncol=3}
+![A Martin](img/martin.jpg){width=200px #fig-martin}
+
+![A Metadel](img/metadel.jpg){width=200px #fig-metadel}
+
+![An Olaf](img/olaf.jpg){width=200px #fig-olaf}
+:::
+
+For more options, see the Quatro guide's [section on figures](https://quarto.org/docs/authoring/figures.html)
+
+## Tables
+
+| Name | Race |
+|------|------|
+| Meriadoc | Hobbit |
+| Denethor | Man |
+| Galdriel | Elf (Noldo) |
+| Sauron | Maia |
+| Grishnákh | Orc |
+
+: A sample of characters from Lord of the Rings {#tbl-lotr}
+
+<!-- The above is table caption -->
+
+## Maths
+
+<!-- This is just a little bit of CSS (the scripting language that governs styling in HTML documents) that styles the LaTeX logo below. It is only relevant for HTML output and will be ignored when rendered as PDF or DOCX. -->
+<style>
+    .latex {
+        font-family: "Times New Roman";
+        font-weight: bold;
+    }
+
+    .latex sub {
+      margin-left: -0.1667em;
+      margin-right: -0.125em;
+      font-size: 1em;
+    }
+
+    .latex sup {
+      font-size: 0.85em;
+      vertical-align: -.35em;
+      margin-left: -0.36em;
+      margin-right: -0.15em;
+    }
+</style>
+
+<!-- This is a version of the paragraph for HTML and DOCX and is hidden for PDF -->
+:::{.content-hidden when-format="pdf"}
+By default, Quarto uses MathJax a maths rendering engine similar to [L^A^T~E~X]{.latex} math mode (for those familiar).
+:::
+
+<!-- This shows ONLY in PDF output -->
+:::{.content-hidden unless-format="pdf"}
+By default, Quarto uses MathJax a maths rendering engine similar to \LaTeX\ math mode (for those familiar).
+:::
+
+Maths is indicated by a `$` (inline) or `$$` (block) fence.
+For instance, `$\sum x_i - \bar{x}$` will be rendered as $\sum x_i - \bar{x}$, while
+
+<!-- This is a source code block so the maths inside isn't getting interpreted/rendered -->
+```
+$$x = \frac{-b\pm\sqrt{\Delta}}{2a}$$
+$$\Delta = b^2 - 4ac$$
+```
+
+produces blocked maths:
+
+$$x = \frac{-b\pm\sqrt{\Delta}}{2a}$$
+$$\Delta = b^2 - 4ac$$
+
+To align multi-line maths at arbitrary points, use the `aligned` environment, `\\` for new line, and the `&` alignment marker:
+
+```
+$$\begin{aligned}
+\mathrm{E}(s^2) &= \mathrm{E}\Bigg(\sum_{i=1}^n\frac{(x_i - \bar{x})^2}{n-1}\Bigg)\\
+&= \frac{1}{n-1}\mathrm{E}\Bigg(\sum_{i=1}^nx_i^2 - n\bar{x}^2\Bigg)\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\mathrm{E}\big(x_i^2\big) - n\mathrm{E}\big(\bar{x}^2\big)\Bigg]\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(x_i)\big]^2\Big\} - n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(\bar{x})\big]^2\Big\}\Bigg]\\
+\end{aligned}$$
+```
+
+$$\begin{aligned}
+\mathrm{E}(s^2) &= \mathrm{E}\Bigg(\sum_{i=1}^n\frac{(x_i - \bar{x})^2}{n-1}\Bigg)\\
+&= \frac{1}{n-1}\mathrm{E}\Bigg(\sum_{i=1}^nx_i^2 - n\bar{x}^2\Bigg)\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\mathrm{E}\big(x_i^2\big) - n\mathrm{E}\big(\bar{x}^2\big)\Bigg]\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(x_i)\big]^2\Big\} - n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(\bar{x})\big]^2\Big\}\Bigg]\\
+\end{aligned}$$
+
+## Cross-references {#sec-crossrefs}
+
+You can refer to a section in your document by adding a section label `{#sec-label}` to the section heading and then referring to this label with an `@sec-label` (see @sec-crossrefs).
+Similarly, you can refer to any images, figures (@fig-olaf), or tables (@tbl-lotr).
+
+::: {.callout-important}
+The `#sec-` for sections, `#fig-` for figures and images, and `#tbl-` for tables is required.
+:::
+
+## Citing literature
+
+@bielikInvestigatingEffectUrban2015 say this is fine.
+That, however, is probably balls [@schneiderParametricExplorationSpatial2012; @bielikEvolvingConfigurationalProperties2019]
+König, Bielik, and Schneider also say: "oh man, whatever..." [-@koenigSystemDynamicsModeling2018 p. 42]
+Finally, Osintseva and colleagues [-@osintsevaAutomatedParametricBuilding2020] went to the pub.
+
+# References {.unnumbered}

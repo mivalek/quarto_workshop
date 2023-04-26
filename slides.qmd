@@ -1,0 +1,39 @@
+---
+title: "Literate programming with Quarto"
+subtitle: "InfAR workshop"
+date: 2023-04-27
+date-format: "DD MMMM YYYY"
+author: Milan Valášek
+format:
+    revealjs:
+        theme: serif
+---
+
+## Structure
+
+::: {.incremental}
+- What is literate programming?
+- Very short history
+- Intro to markdown
+    - formatting basics
+    - tables, figures, references...
+- Adding code
+:::
+
+## Prerequisites
+
+- [Quarto](https://quarto.org/docs/get-started/) installed
+- Suitable text editor or IDE
+    - I will use [VS Code](https://code.visualstudio.com/download), but [RStudio](https://posit.co/downloads/) (and presumably other software) works well too
+- Quarto [extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for VS Code
+- Curiosity, patience, and trust that it's gonna be worth it
+
+::: {.aside}
+Other software will be installed as we go
+:::
+
+## Materials
+
+Source files for the materials used are available at...
+
+## {#gif background-image="https://media.giphy.com/media/SbtWGvMSmJIaV8faS8/giphy.gif"}
