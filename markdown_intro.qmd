@@ -11,6 +11,16 @@ csl: apa.csl # APA 7th citation style
 # csl: ieee.csl # Institute of Electrical and Electronics Engineers citation style
 ---
 
+```{r setup}
+library(reticulate)
+```
+
+::: {.callout-note}
+The above is a code block that contains `R` code that will be evaluated when the document is rendered
+
+The `reticulate` package allows us to use Python even though the document will be rendered using the `R` package `knitr`. This is so that we can then use `knitr`'s inline code evaluation (see the [Code evaluation section](#sec-eval) below)
+:::
+
 # Level 1 heading
 
 ## Level 2 heading
@@ -138,7 +148,7 @@ For more options, see the Quatro guide's [section on figures](https://quarto.org
 
 <!-- The above is table caption -->
 
-## Maths
+# Maths
 
 <!-- This is just a little bit of CSS (the scripting language that governs styling in HTML documents) that styles the LaTeX logo below. It is only relevant for HTML output and will be ignored when rendered as PDF or DOCX. -->
 <style>
@@ -188,20 +198,163 @@ $$\Delta = b^2 - 4ac$$
 To align multi-line maths at arbitrary points, use the `aligned` environment, `\\` for new line, and the `&` alignment marker:
 
 ```
-$$\begin{aligned}
-\mathrm{E}(s^2) &= \mathrm{E}\Bigg(\sum_{i=1}^n\frac{(x_i - \bar{x})^2}{n-1}\Bigg)\\
-&= \frac{1}{n-1}\mathrm{E}\Bigg(\sum_{i=1}^nx_i^2 - n\bar{x}^2\Bigg)\\
-&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\mathrm{E}\big(x_i^2\big) - n\mathrm{E}\big(\bar{x}^2\big)\Bigg]\\
-&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(x_i)\big]^2\Big\} - n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(\bar{x})\big]^2\Big\}\Bigg]\\
-\end{aligned}$$
+$$
+\begin{aligned}
+\sigma &= \sqrt{ \frac{ \sum_{ i = 0 }^n(x_i - \bar{x})^2}{n-1}} \\
+& = \sqrt{\sigma^2}
+\end{aligned}
+$$
 ```
 
-$$\begin{aligned}
+$$
+\begin{aligned}
+\sigma &= \sqrt{ \frac{ \sum_{ i = 0 }^n(x_i - \bar{x})^2}{n-1}} \\
+& = \sqrt{\sigma^2}
+\end{aligned}
+$$
+
+You can go much more complex than that...
+
+```
+$$
+\begin{aligned}
 \mathrm{E}(s^2) &= \mathrm{E}\Bigg(\sum_{i=1}^n\frac{(x_i - \bar{x})^2}{n-1}\Bigg)\\
 &= \frac{1}{n-1}\mathrm{E}\Bigg(\sum_{i=1}^nx_i^2 - n\bar{x}^2\Bigg)\\
 &= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\mathrm{E}\big(x_i^2\big) - n\mathrm{E}\big(\bar{x}^2\big)\Bigg]\\
 &= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(x_i)\big]^2\Big\} - n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(\bar{x})\big]^2\Big\}\Bigg]\\
-\end{aligned}$$
+\end{aligned}
+$$
+```
+
+$$
+\begin{aligned}
+\mathrm{E}(s^2) &= \mathrm{E}\Bigg(\sum_{i=1}^n\frac{(x_i - \bar{x})^2}{n-1}\Bigg)\\
+&= \frac{1}{n-1}\mathrm{E}\Bigg(\sum_{i=1}^nx_i^2 - n\bar{x}^2\Bigg)\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\mathrm{E}\big(x_i^2\big) - n\mathrm{E}\big(\bar{x}^2\big)\Bigg]\\
+&= \frac{1}{n-1}\Bigg[\sum_{i=1}^n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(x_i)\big]^2\Big\} - n\Big\{\mathrm{Var}(\bar{x})+\big[\mathrm{E}(\bar{x})\big]^2\Big\}\Bigg]\\
+\end{aligned}
+$$
+
+
+# Code evaluation {#sec-eval}
+
+The real power of Quarto lies in the integration of the markdown-powered text editor and code evaluation.
+
+You can easily include blocks of actual `R`, Python, Julia, or Observable JS code that will get evaluated before the document gets rendered.
+To do that, use a code fence with the following syntax:
+
+<!--  The double braces {{}} mean that the code block gets printed out literally and not evaluated. The language used should only be wrapped in a single set of braces, see below -->
+```{{language}}
+code
+```
+
+So, if you're writing in Python, we need:
+
+<!-- The "echo: fenced" option below is only used for demonstration purposes and should otherwise not be used -->
+```{python}
+#| echo: fenced
+def greet(whom):
+    return f'Hello {whom}'
+
+greet("InfAR")
+```
+
+As you can see in the rendered document, the code got evaluated and its output inserted under the code block.
+
+## Execution options
+
+You can change the way code blocks are treated by specifying execution options.
+This can be done either _globally_ (for all code blocks) in the document header at the very top or _locally_ within a given code block using the `#|` to denote options.
+
+There are many execution options (see [Quarto documentation](https://quarto.org/docs/computations/execution-options.html)) so I'll just demonstrate how they're used in principle.
+For instance, if you want the code blocks to be hidden from the rendered document by default while still showing the output of the code, you'd set the `echo` option to `false` in the document header like so:
+
+```yaml
+---
+# other header fields, such as title omitted
+execute:
+    echo: false
+---
+```
+
+If, however, you still want to show a particular block of code in the document, you can turn the `echo` option on locally:
+
+```{{language}}
+#| echo: true
+... your code ...
+```
+
+
+::: {.callout-note}
+Local code block options override global ones for a given block!
+:::
+
+## Inline code (only with `knitr`)
+
+If you are using `knitr` to evaluate code[^2], you can use its inline code chunks (``r ``)   to insert the output of your code straight into body text:
+
+[^2]: This will happen automatically if the first code block is an `R` block. You can do this even if you want to code in Python and just use the `reticulate` package like we did at the top of this document.
+
+The line:
+
+<code>The result of the code above is &#96;r py$greet(\'InfAR\')&#96;</code>.[^3]
+
+[^3]: Because we are primarily using `R` here and interfacing with Python via the `reticulate` package, all objects that are created in Python are stored inside of `py`. This is why we are calling the `greet()` function from inside the `py` object in `R` using `py$greet()`. We are doing this because, unfortunately, there is no elegant way in Quarto to print out inline code like this when using Python natively (through the Jupyter engine).
+
+will produce:
+
+The result of the code above is `r py$greet('InfAR')`.
+
+## Tables and figures
+
+Using code blocks, it's very easy to tabulate and plot your data.
+
+Here is a quick example of a scatterplot in Python.
+Notice the options in the source document that govern what the figure cation should be and where it should be positioned as well as set the label for the figure that can then be referenced as @fig-peng (see @sec-crossrefs).
+
+```{python}
+#| fig-cap: Relationship between bill length and body mass by penguin species
+#| fig-cap-location: bottom
+#| label: fig-peng
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins_url =  "https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/4ecf3041f0ed4913e7c230758733948bc561f434/penguins.csv"
+df = pd.read_csv(penguins_url)
+
+plot = sns.lmplot(x="body_mass_g", y="bill_length_mm",
+                  data=df, fit_reg=True, hue='species', legend=False)
+plt.legend(loc='lower right')
+plt.xlabel('Body mass (g)')
+plt.ylabel('Bill length (mm)')
+plt.show()
+```
+
+And here is a nice HTML table using `R` and its `kableExtra` package.
+
+```{r}
+#| tbl-cap: Summary of body mass (g) by penguin species
+#| label: tbl-peng
+#| warning: false
+library(kableExtra)
+library(dplyr)
+
+penguins_url =  "https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/4ecf3041f0ed4913e7c230758733948bc561f434/penguins.csv"
+read.csv(penguins_url) |>
+    dplyr::group_by(species) |>
+    dplyr::summarise(
+        m_mass = mean(body_mass_g, na.rm=TRUE),
+        sd_mass = sd(body_mass_g, na.rm=TRUE),
+    ) |>
+    kableExtra::kbl(
+        digits = 2,
+        col.names = c("Species", "_M_", "_SD_"), # you can even use markdown
+        format = "markdown") |>                  # provided you specify format
+    kableExtra::kable_styling(bootstrap_options = "striped")
+```
+
+# Academic writing
 
 ## Cross-references {#sec-crossrefs}
 
@@ -218,5 +371,12 @@ The `#sec-` for sections, `#fig-` for figures and images, and `#tbl-` for tables
 That, however, is probably balls [@schneiderParametricExplorationSpatial2012; @bielikEvolvingConfigurationalProperties2019]
 König, Bielik, and Schneider also say: "oh man, whatever..." [-@koenigSystemDynamicsModeling2018 p. 42]
 Finally, Osintseva and colleagues [-@osintsevaAutomatedParametricBuilding2020] went to the pub.
+
+All cited sources will automatically be included in the list of references at the bottom of the document.
+
+# Post script
+
+This was just a small taster covering the very basics of what you can do with Quarto.
+For a deeper dive, I strongly encourage you to check out the [documentation](https://quarto.org/docs/guide/)!
 
 # References {.unnumbered}

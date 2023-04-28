@@ -6,7 +6,8 @@ date-format: "DD MMMM YYYY"
 author: Milan Valášek
 format:
     revealjs:
-        theme: serif
+        theme: [serif, slide_theme.scss] # slide_theme.scss has a little custom styling
+        logo: img/buw_logo.svg
 ---
 
 ## Structure
@@ -24,7 +25,7 @@ format:
 
 - [Quarto](https://quarto.org/docs/get-started/) installed
 - Suitable text editor or IDE
-    - I will use [VS Code](https://code.visualstudio.com/download), but [RStudio](https://posit.co/downloads/) (and presumably other software) works well too
+- I will use [VS Code](https://code.visualstudio.com/download), but [RStudio](https://posit.co/downloads/) (and presumably other software) works well too
 - Quarto [extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for VS Code
 - Curiosity, patience, and trust that it's gonna be worth it
 
@@ -34,6 +35,43 @@ Other software will be installed as we go
 
 ## Materials
 
-Source files for the materials used are available at...
+Source files for the materials used, these slides including, are available [on my GitHub](https://github.com/mivalek/quarto_workshop)
+
+![](img/gh_repo_qr.png){fig-align="center"}
+
+## Literate programming
+
+:::: {.columns}
+
+::: {.column width="60%"}
+- Introduced in 1984 by Donald Knuth
+- Focus on human-readable documents
+- Documentation, teaching, open science, technical writing, _presentations_...
+:::
+
+::: {.column .myclass width="40%"}
+[![](https://apidyn.royalsociety.org/images/fellows/P27258-Donald-Knuth.jpg?width=275)](https://en.wikipedia.org/wiki/Donald_Knuth)
+:::
+
+::::
+
+## Quarto
+
+- Created by Posit (formerly RStudio)
+- Grew out of `knitr` and R Markdown (Rmd)
+    - markdown-based text editor with powerful `R` code evaluation capability
+    - Became super popular in the R community (`rmarkdown`, `blogdown`, `bookdown`)
+- Extends Rmd to natively support Python, Julia, and [Observable JS](https://quarto.org/docs/interactive/ojs/)
+- For Python and Julia, Quarto is essentially just a better Jupyter Notebook
+
+## In practice
+
+I've used R Markdown extensively in my teaching
+
+<iframe src="https://and2022.netlify.app/" width="1000" height="550"></iframe>
 
 ## {#gif background-image="https://media.giphy.com/media/SbtWGvMSmJIaV8faS8/giphy.gif"}
+
+## Enough chit chat
+
+Let's see what the fuss is all about!
